@@ -14,19 +14,27 @@ class GameService(IGameService):
     _repository: IGameRepository
 
     def __init__(self, repository: IGameRepository) -> None:
-        """The initializer of the game service."""
         self._repository = repository
 
-    async def get_all(self) -> Iterable[GameDTO]:
-        """Get all games."""
+    async def get_all_games(self) -> Iterable[GameDTO]:
+        """The method getting all games from the data storage.
+
+        Returns:
+            Iterable[Any]: Games in the data storage.
+        """
         return await self._repository.get_all()
 
     async def get_by_id(self, game_id: int) -> GameDTO | None:
-        """Get game by id."""
+        """The method getting a game from the data storage by its id.
+
+
+        Returns:
+            Iterable[Any]: Airports in the data storage.
+        """
         return await self._repository.get_by_id(game_id)
 
     async def add_game(self, data: GameBroker) -> Game | None:
-        """Add new game."""
+
         return await self._repository.add(data)
 
     async def update_game(
@@ -34,9 +42,8 @@ class GameService(IGameService):
         game_id: int,
         data: GameBroker,
     ) -> Game | None:
-        """Update game."""
+
         return await self._repository.update(game_id, data)
 
     async def delete_game(self, game_id: int) -> bool:
-        """Delete game."""
         return await self._repository.delete(game_id)

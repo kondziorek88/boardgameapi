@@ -24,33 +24,33 @@ class ISession(ABC):
         """
 
     @abstractmethod
-    async def get_session_by_id(self, session_id: str) -> Any | None:
+    async def get_session_by_id(self, session_id: int) -> Any | None:
         """The abstract getting a session from the data storage.
 
         Args:
-            session_id (str): The session id.
+            session_id (int): The session id.
 
         Returns:
             Any | None: Sesssion data.
         """
 
     @abstractmethod
-    async def delete_session(self, session_id: str) -> bool:
+    async def delete_session(self, session_id: int) -> bool:
         """The abstract deleting a session from the data storage.
 
         Args:
-            session_id (str): The session id.
+            session_id (int): The session id.
 
         Returns:
             bool: Success of the operation.
         """
 
     @abstractmethod
-    async def update_session(self, session_id: str, data: SessionIn) -> Any | None:
+    async def update_session(self, session_id: int, data: SessionIn) -> Any | None:
         """The abstract updating a session from the data storage.
 
         Args:
-            session_id (str): The session id.
+            session_id (int): The session id.
             data (SessionIn): The atrtributes of the session.
 
         Returns:

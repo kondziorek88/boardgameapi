@@ -5,7 +5,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 
-class GameDTO(BaseModel):
+class CommentDTO(BaseModel):
     """A model representing DTO for board game data."""
     id: int
     content: str

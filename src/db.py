@@ -24,6 +24,11 @@ user_table = sqlalchemy.Table(
     sqlalchemy.Column("email", sqlalchemy.String, unique=True, nullable=False),
     sqlalchemy.Column("password", sqlalchemy.String, nullable=False),
     sqlalchemy.Column("nick", sqlalchemy.String, unique=True),
+    sqlalchemy.Column(
+        "registration_date",
+        sqlalchemy.DateTime,
+        server_default=sqlalchemy.text("NOW()"),
+    ),
 )
 
 
@@ -42,6 +47,25 @@ game_table = sqlalchemy.Table(
         sqlalchemy.ForeignKey("users.id"),
         nullable=False,
     ),
+)
+
+session_score_table = sqlalchemy.Table(
+    "session_scores",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column(
+        "session_id",
+        sqlalchemy.Integer,
+        sqlalchemy.ForeignKey("sessions.id", ondelete="CASCADE"),
+        nullable=False,
+    ),
+    sqlalchemy.Column(
+        "user_id",
+        UUID(as_uuid=True),
+        sqlalchemy.ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+    ),
+    sqlalchemy.Column("score", sqlalchemy.Integer, nullable=False),
 )
 
 session_table = sqlalchemy.Table(
@@ -64,6 +88,9 @@ session_table = sqlalchemy.Table(
         "session_date",
         sqlalchemy.DateTime,
         nullable=False),
+    sqlalchemy.Column("date", sqlalchemy.DateTime, nullable=False),
+    sqlalchemy.Column("note", sqlalchemy.String, nullable=True),
+    sqlalchemy.Column("winner_id", UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=True),
 )
 
 ranking_table = sqlalchemy.Table(
@@ -71,18 +98,26 @@ ranking_table = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column(
-        "session_id",
-        sqlalchemy.Integer,
-        sqlalchemy.ForeignKey("game_sessions.id", ondelete="CASCADE"),
-        nullable=False,
-    ),
-    sqlalchemy.Column(
         "user_id",
         UUID(as_uuid=True),
         sqlalchemy.ForeignKey("users.id", ondelete="CASCADE"),
         nullable=False,
     ),
-    sqlalchemy.Column("score", sqlalchemy.Integer, nullable=False),
+    sqlalchemy.Column(
+        "game_id",
+        sqlalchemy.Integer,
+        sqlalchemy.ForeignKey("games.id", ondelete="CASCADE"),
+        nullable=False,
+    ),
+    sqlalchemy.Column("games_played", sqlalchemy.Integer, default=0, nullable=False),
+    sqlalchemy.Column("wins", sqlalchemy.Integer, default=0, nullable=False),
+    sqlalchemy.Column("average_score", sqlalchemy.Float, default=0.0, nullable=False),
+    sqlalchemy.Column("best_score", sqlalchemy.Integer, default=0, nullable=False),
+    sqlalchemy.Column("first_game_date", sqlalchemy.DateTime, nullable=True),
+    sqlalchemy.Column("last_game_date", sqlalchemy.DateTime, nullable=True),
+
+    
+    sqlalchemy.UniqueConstraint("user_id", "game_id", name="uq_ranking_user_game"),
 )
 
 comment_table = sqlalchemy.Table(

@@ -13,18 +13,28 @@ class RankingService(IRankingService):
     _repository: IRankingRepository
 
     def __init__(self, repository: IRankingRepository) -> None:
+        """The initializer of the `ranking service`.
+
+            Args:
+                repository (IRankingRepository): The reference to the repository.
+            """
+
         self._repository = repository
 
     async def get_all(self) -> Iterable[RankingDTO]:
-        """Get all rankings."""
+        """The method getting all rankings from a repository.
+
+            Returns:
+                Iterable[RankingDTO]: A list of rankings.
+        """
         return await self._repository.get_all()
 
     async def get_by_id(self, ranking_id: int) -> RankingDTO | None:
-        """Get ranking by id."""
+
         return await self._repository.get_by_id(ranking_id)
 
     async def get_by_game(self, game_id: int) -> Iterable[RankingDTO]:
-        """Get rankings for a given game."""
+
         return await self._repository.get_by_game(game_id)
 
     async def add_ranking(self, data: RankingBroker) -> Ranking | None:

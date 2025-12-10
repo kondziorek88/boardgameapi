@@ -26,7 +26,7 @@ class ICommentRepository(ABC):
         """The abstract getting a comment by session from the data storage.
 
         Args:
-            session_id (str): The session id.
+            session_id (int): The session id.
 
         Returns:
             Any | None: comment data.
@@ -36,7 +36,7 @@ class ICommentRepository(ABC):
         """The abstract deleting a comment from the data storage.
 
         Args:
-            comment_id (str): The comment id.
+            comment_id (int): The comment id.
             user_id (UUID1): The user id.
 
         Returns:

@@ -9,7 +9,7 @@ from pydantic import BaseModel, ConfigDict, UUID1
 class GameDTO(BaseModel):
     """A model representing DTO for board game data."""
     id: int
-    name: str
+    title: str
     description: Optional[str]
     min_players: int
     max_players: int

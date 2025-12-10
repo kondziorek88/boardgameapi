@@ -10,7 +10,7 @@ class IGameRepository(ABC):
     """An abstract repository class for game."""
 
     @abstractmethod
-    async def get_all(selfs) -> Iterable[Any]:
+    async def get_all(self) -> Iterable[Any]:
         """the abstract getting all games from data storage.
 
         Returns:
