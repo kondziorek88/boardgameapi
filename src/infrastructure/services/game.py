@@ -47,3 +47,7 @@ class GameService(IGameService):
 
     async def delete_game(self, game_id: int) -> bool:
         return await self._repository.delete(game_id)
+
+    async def get_random_game(self) -> GameDTO | None:
+        """Get a random game."""
+        return await self._repository.get_random_game()

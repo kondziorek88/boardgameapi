@@ -16,6 +16,7 @@ class SessionIn(BaseModel):
 
 class SessionBroker(SessionIn):
     """A broker class including date in the model"""
+    user_id: UUID1
     date_added: datetime
 
 class Session(SessionBroker):
