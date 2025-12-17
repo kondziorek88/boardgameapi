@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 
 from pydantic import UUID5
 
-from src.core.domain.user import UserIn
+from src.core.domain.user import UserLogin, UserIn
 from src.infrastructure.dto.userdto import UserDTO
 from src.infrastructure.dto.tokendto import TokenDTO
 
@@ -25,7 +25,7 @@ class IUserService(ABC):
         """
 
     @abstractmethod
-    async def authenticate_user(self, user: UserIn) -> TokenDTO | None:
+    async def authenticate_user(self, user: UserLogin) -> TokenDTO | None:
         """The method authenticating the user.
 
         Args:

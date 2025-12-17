@@ -1,4 +1,5 @@
 """A module containing user service."""
+from datetime import datetime
 
 from pydantic import UUID4
 
@@ -7,7 +8,7 @@ from src.core.repositories.iuser import IUserRepository
 from src.infrastructure.dto.userdto import UserDTO
 from src.infrastructure.dto.tokendto import TokenDTO
 from src.infrastructure.services.iuser import IUserService
-from src.infrastructure.utils.password import verify_password
+from src.infrastructure.utils.password import verify_password, hash_password
 from src.infrastructure.utils.token import generate_user_token
 
 
@@ -29,7 +30,17 @@ class UserService(IUserService):
             UserDTO | None: The user DTO model.
         """
 
-        return await self._repository.register_user(user)
+        hashed_pwd = hash_password(user.password)
+
+
+        user_data = {
+            "email": user.email,
+            "password": hashed_pwd,
+            "nick": user.nick,
+            "registration_date": datetime.now()
+        }
+
+        return await self._repository.register_user(user_data)
 
     async def authenticate_user(self, user: UserIn) -> TokenDTO | None:
         """The method authenticating the user.
@@ -42,12 +53,10 @@ class UserService(IUserService):
         """
 
         if user_data := await self._repository.get_by_email(user.email):
-            if verify_password(user.password, user_data.password):
-                token_details = generate_user_token(user_data.id)
-                # trunk-ignore(bandit/B106)
+            # user_data to rekord z bazy, ma pole 'password' (hash)
+            if verify_password(user.password, user_data["password"]):
+                token_details = generate_user_token(user_data["id"])
                 return TokenDTO(token_type="Bearer", **token_details)
-
-            return None
 
         return None
 
@@ -72,5 +81,5 @@ class UserService(IUserService):
         Returns:
             UserDTO | None: The user data, if found.
         """
-
-        return await self._repository.get_by_email(email)
+        record = await self._repository.get_by_email(email)
+        return UserDTO.from_record(record) if record else None

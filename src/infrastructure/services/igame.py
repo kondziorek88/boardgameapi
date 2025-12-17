@@ -75,3 +75,11 @@ class IGameService(ABC):
         Returns:
             bool: Success of the operation.
         """
+
+    @abstractmethod
+    async def get_random_game(self, game_id: int) -> GameDTO | None:
+        """The method getting a random game
+
+            Returns:
+                GameDTO | None: The game details.
+        """

@@ -28,10 +28,6 @@ async def create_game(
         dict: The new game attributes.
     """
 
-    # Uwaga: w prawdziwej aplikacji admin_id bralibyśmy z tokena JWT
-    # Tutaj zakładamy, że jest przekazywane lub hardcodowane tymczasowo
-    # Musisz dostosować GameIn lub metodę serwisu, jeśli admin_id jest wymagane
-    # Zakładam, że GameIn ma to pole lub serwis je uzupełnia.
     new_game = await service.add_game(game)
 
     return new_game.model_dump() if new_game else {}
@@ -70,7 +66,6 @@ async def get_random_game(
     Returns:
         dict: The random game details.
     """
-    # Upewnij się, że dodałeś metodę get_random_game do IGameService i GameService!
     if game := await service.get_random_game():
         return game.model_dump()
 
@@ -100,3 +95,4 @@ async def get_game_by_id(
         return game.model_dump()
 
     raise HTTPException(status_code=404, detail="Game not found")
+#teraz pytanie czy usuwanie gier dać

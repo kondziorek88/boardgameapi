@@ -29,12 +29,17 @@ class GameService(IGameService):
 
 
         Returns:
-            Iterable[Any]: Airports in the data storage.
+            Game | None: game in the data storage.
         """
         return await self._repository.get_by_id(game_id)
 
     async def add_game(self, data: GameBroker) -> Game | None:
+        """The method adding a game to the data storage.
 
+
+        Returns:
+            Game | None: The newly created game.
+        """
         return await self._repository.add(data)
 
     async def update_game(
@@ -42,12 +47,33 @@ class GameService(IGameService):
         game_id: int,
         data: GameBroker,
     ) -> Game | None:
+        """The abstract updating game data in the repository.
 
+                Args:
+                    game(int): The game id.
+                    data (CountryIn): The attributes of the game.
+
+                Returns:
+                    Game | None: The updated game.
+                """
         return await self._repository.update(game_id, data)
 
     async def delete_game(self, game_id: int) -> bool:
+        """The abstract updating removing country from the repository.
+
+            Args:
+                game_id (int): The game id.
+
+            Returns:
+                bool: Success of the operation.
+        """
         return await self._repository.delete(game_id)
 
     async def get_random_game(self) -> GameDTO | None:
-        """Get a random game."""
+        """The method getting a random game from the data storage.
+
+
+        Returns:
+            Game | None: Game in the data storage.
+        """
         return await self._repository.get_random_game()
