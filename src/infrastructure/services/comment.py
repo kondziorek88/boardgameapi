@@ -2,7 +2,7 @@
 
 from typing import Iterable
 from src.core.domain.comment import Comment, CommentBroker
-from src.core.repositories.IComment import ICommentRepository
+from src.core.repositories.icomment import ICommentRepository
 from src.infrastructure.dto.commentdto import CommentDTO
 from src.infrastructure.services.icomment import ICommentService
 

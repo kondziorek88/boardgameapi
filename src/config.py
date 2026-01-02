@@ -11,10 +11,10 @@ class BaseConfig(BaseSettings):
 
 class AppConfig(BaseConfig):
     """A class containing app's configuration."""
-    DB_HOST: Optional[str] = None
-    DB_NAME: Optional[str] = None
-    DB_USER: Optional[str] = None
-    DB_PASSWORD: Optional[str] = None
-
+    DB_HOST: Optional[str] = "localhost"
+    DB_NAME: Optional[str] = "boardgames"
+    DB_USER: Optional[str] = "postgres"
+    DB_PASSWORD: Optional[str] = "password"
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 config = AppConfig()

@@ -21,14 +21,14 @@ from src.infrastructure.services.comment import CommentService
 class Container(DeclarativeContainer):
     """Container class for dependency injecting purposes."""
 
-    # 1. Repositories (Singletons)
+    #Repositories
     game_repository = Singleton(GameRepository)
     session_repository = Singleton(SessionRepository)
     ranking_repository = Singleton(RankingRepository)
     user_repository = Singleton(UserRepository)
     comment_repository = Singleton(CommentRepository)
 
-    # 2. Services (Factories)
+    #Services
     game_service = Factory(
         GameService,
         repository=game_repository,
@@ -39,7 +39,6 @@ class Container(DeclarativeContainer):
         repository=ranking_repository,
     )
 
-    # SessionService potrzebuje RankingService do aktualizacji statystyk
     session_service = Factory(
         SessionService,
         repository=session_repository,
