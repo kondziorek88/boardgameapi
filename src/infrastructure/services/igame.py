@@ -77,7 +77,7 @@ class IGameService(ABC):
         """
 
     @abstractmethod
-    async def get_random_game(self, game_id: int) -> GameDTO | None:
+    async def get_random_game(self) -> GameDTO | None:
         """The method getting a random game
 
             Returns:

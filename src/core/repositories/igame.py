@@ -2,6 +2,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Any, Iterable
+from pydantic import UUID1
 
 
 from src.core.domain.game import GameIn, GameBroker
@@ -28,6 +29,9 @@ class IGameRepository(ABC):
         Returns:
             Any | None: The game data if exists.
         """
+
+
+
 
     @abstractmethod
     async def get_by_name(self, game_name: str) -> Any | None:
@@ -79,4 +83,15 @@ class IGameRepository(ABC):
 
         Returns:
             Any | None: Returns a game if at least one exists, else returns None..
+        """
+
+    @abstractmethod
+    async def get_by_admin(self, admin_id: UUID1) -> Iterable[Any]:
+        """The abstract method getting games created by a specific admin.
+
+        Args:
+            admin_id (UUID1): The admin id.
+
+        Returns:
+            Iterable[Any]: The game collection.
         """

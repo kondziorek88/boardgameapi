@@ -53,8 +53,8 @@ class UserService(IUserService):
         """
 
         if user_data := await self._repository.get_by_email(user.email):
-            # user_data to rekord z bazy, ma pole 'password' (hash)
             if verify_password(user.password, user_data["password"]):
+
                 token_details = generate_user_token(user_data["id"])
                 return TokenDTO(token_type="Bearer", **token_details)
 

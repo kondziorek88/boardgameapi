@@ -20,11 +20,11 @@ container = Container()
 
 container.wire(modules=[
     "src.api.routers.games",
-    "src.api.routers.sessions",
+    "src.api.routers.session",
     "src.api.routers.rankings",
     "src.api.routers.comments",
+    "src.api.routers.auth",
     "src.api.dependencies",
-    "src.infrastructure.utils.security",
 ])
 
 @asynccontextmanager

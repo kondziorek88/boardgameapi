@@ -6,5 +6,7 @@ databases
 pydantic
 pydantic-settings
 python-jose[cryptography]
-passlib[bcrypt]
+passlib
+bcrypt==4.0.1
 dependency-injector
+python-multipart
