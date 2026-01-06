@@ -12,6 +12,7 @@ class UserLogin(BaseModel):
 class UserIn(UserLogin):
     """An input user model for registration"""
     nick: str
+    is_admin: bool = False
 
 class UserBroker(UserIn):
     """Broker model with internal data"""

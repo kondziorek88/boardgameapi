@@ -11,6 +11,7 @@ class UserDTO(BaseModel):
     id: UUID
     email: str
     nick: str
+    is_admin: bool
     registration_date: datetime
 
     model_config = ConfigDict(
@@ -25,5 +26,6 @@ class UserDTO(BaseModel):
             id=record["id"],
             email=record["email"],
             nick=record["nick"],
+            is_admin=record["is_admin"],
             registration_date=record["registration_date"]
         )

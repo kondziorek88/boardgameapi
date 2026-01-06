@@ -24,6 +24,7 @@ user_table = sqlalchemy.Table(
     sqlalchemy.Column("email", sqlalchemy.String, unique=True, nullable=False),
     sqlalchemy.Column("password", sqlalchemy.String, nullable=False),
     sqlalchemy.Column("nick", sqlalchemy.String, unique=True),
+sqlalchemy.Column("is_admin", sqlalchemy.Boolean, default=False),
     sqlalchemy.Column(
         "registration_date",
         sqlalchemy.DateTime,

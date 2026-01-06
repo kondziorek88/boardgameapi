@@ -37,6 +37,7 @@ class UserService(IUserService):
             "email": user.email,
             "password": hashed_pwd,
             "nick": user.nick,
+            "is_admin": user.is_admin,
             "registration_date": datetime.now()
         }
 

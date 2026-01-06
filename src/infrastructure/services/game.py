@@ -8,6 +8,7 @@ from src.core.repositories.igame import IGameRepository
 from src.infrastructure.dto.gamedto import GameDTO
 from src.infrastructure.services.igame import IGameService
 
+
 class GameService(IGameService):
     """A class implementing the game service."""
 
@@ -17,72 +18,26 @@ class GameService(IGameService):
         self._repository = repository
 
     async def get_all(self) -> Iterable[GameDTO]:
-        """The method getting all games from the data storage.
-
-        Returns:
-            Iterable[Any]: Games in the data storage.
-        """
         return await self._repository.get_all()
 
-    async def get_by_admin(self, admin_id: UUID1) -> Iterable[GameDTO]:
-
-        if hasattr(self._repository, "get_by_admin"):
-            return await self._repository.get_by_admin(admin_id)
-        return []
     async def get_by_id(self, game_id: int) -> GameDTO | None:
-        """The method getting a game from the data storage by its id.
-
-
-        Returns:
-            Game | None: game in the data storage.
-        """
         return await self._repository.get_by_id(game_id)
 
+    async def get_by_admin(self, admin_id: UUID1) -> Iterable[GameDTO]:
+        return await self._repository.get_by_admin(admin_id)
+
     async def create_game(self, data: GameIn, admin_id: UUID1) -> GameDTO:
-        """The method adding a game to the data storage.
-
-
-        Returns:
-            Game | None: The newly created game.
-        """
         game_data = GameBroker(
             **data.model_dump(),
             admin_id=admin_id
         )
-        return await self._repository.add(data)
+        return await self._repository.add_game(game_data)
 
-    async def update_game(
-        self,
-        game_id: int,
-        data: GameBroker,
-    ) -> GameDTO | None:
-        """The abstract updating game data in the repository.
-
-                Args:
-                    game(int): The game id.
-                    data (CountryIn): The attributes of the game.
-
-                Returns:
-                    Game | None: The updated game.
-                """
-        return await self._repository.update(game_id, data)
+    async def update_game(self, game_id: int, data: GameBroker) -> GameDTO | None:
+        return await self._repository.update_game(game_id, data)
 
     async def delete_game(self, game_id: int) -> bool:
-        """The abstract updating removing country from the repository.
-
-            Args:
-                game_id (int): The game id.
-
-            Returns:
-                bool: Success of the operation.
-        """
-        return await self._repository.delete(game_id)
+        return await self._repository.delete_game(game_id)
 
     async def get_random_game(self) -> GameDTO | None:
-        """The method getting a random game from the data storage.
-
-
-        Returns:
-            Game | None: Game in the data storage.
-        """
         return await self._repository.get_random_game()

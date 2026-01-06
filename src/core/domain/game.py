@@ -2,7 +2,8 @@
 
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict, UUID1
+from pydantic import BaseModel, ConfigDict
+from uuid import UUID
 
 
 class GameIn(BaseModel):
@@ -14,7 +15,7 @@ class GameIn(BaseModel):
     rules_url: Optional[str] = None
 
 class GameBroker(GameIn):
-    admin_id: UUID1
+    admin_id: UUID
 
 
 class Game(GameBroker):
