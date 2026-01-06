@@ -1,5 +1,6 @@
 """A module containing user-related routers."""
 
+from typing import Iterable
 from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends, HTTPException
 
@@ -61,3 +62,11 @@ async def authenticate_user(
         status_code=401,
         detail="Provided incorrect credentials",
     )
+
+@router.get("/", response_model=Iterable[UserDTO])
+@inject
+async def get_all_users(
+    service: IUserService = Depends(Provide[Container.user_service]),
+):
+    """Get list of all users."""
+    return await service.get_all_users()

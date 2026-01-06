@@ -32,3 +32,9 @@ class UserRepository(IUserRepository):
         query = user_table.insert().values(**user_data)
         new_id = await database.execute(query)
         return await self.get_by_uuid(new_id)
+
+    async def get_all(self) -> list[UserDTO]:
+        """Get all users."""
+        query = user_table.select().order_by(user_table.c.nick)
+        users = await database.fetch_all(query)
+        return [UserDTO.from_record(user) for user in users]

@@ -2,7 +2,8 @@
 
 from typing import Optional
 from asyncpg import Record
-from pydantic import BaseModel, ConfigDict, UUID1
+from pydantic import BaseModel, ConfigDict
+from uuid import UUID
 
 
 
@@ -14,7 +15,7 @@ class GameDTO(BaseModel):
     min_players: int
     max_players: int
     rules_url: Optional[str]
-    admin_id: UUID1
+    admin_id: UUID
 
     model_config = ConfigDict(
         from_attributes=True,

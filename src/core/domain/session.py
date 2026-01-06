@@ -3,20 +3,21 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict, UUID1
+from pydantic import BaseModel, ConfigDict
+from uuid import UUID
 
 class SessionIn(BaseModel):
     """An input Session model"""
     game_id: int
     date: datetime
     note: Optional[str] = None
-    participants: list[UUID1]
-    winner_id: Optional[UUID1]
-    scores: dict[UUID1, int]
+    participants: list[UUID]
+    winner_id: Optional[UUID]
+    scores: dict[UUID, int]
 
 class SessionBroker(SessionIn):
     """A broker class including date in the model"""
-    user_id: UUID1
+    user_id: UUID
     date_added: datetime
 
 class Session(SessionBroker):

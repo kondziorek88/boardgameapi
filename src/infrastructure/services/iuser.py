@@ -29,7 +29,7 @@ class IUserService(ABC):
         """The method authenticating the user.
 
         Args:
-            user (UserIn): The user data.
+            user (UserLogin): The user data.
 
         Returns:
             TokenDTO | None: The token details.
@@ -52,6 +52,14 @@ class IUserService(ABC):
 
         Args:
             email (str): The email of the user.
+
+        Returns:
+            UserDTO | None: The user data, if found.
+        """
+
+    @abstractmethod
+    async def get_all_users(self) -> UserDTO | None:
+        """A method getting all users.
 
         Returns:
             UserDTO | None: The user data, if found.

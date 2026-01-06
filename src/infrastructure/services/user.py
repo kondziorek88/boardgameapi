@@ -3,7 +3,7 @@ from datetime import datetime
 
 from pydantic import UUID4
 
-from src.core.domain.user import UserIn
+from src.core.domain.user import UserIn, UserLogin
 from src.core.repositories.iuser import IUserRepository
 from src.infrastructure.dto.userdto import UserDTO
 from src.infrastructure.dto.tokendto import TokenDTO
@@ -43,7 +43,7 @@ class UserService(IUserService):
 
         return await self._repository.register_user(user_data)
 
-    async def authenticate_user(self, user: UserIn) -> TokenDTO | None:
+    async def authenticate_user(self, user: UserLogin) -> TokenDTO | None:
         """The method authenticating the user.
 
         Args:
@@ -55,7 +55,6 @@ class UserService(IUserService):
 
         if user_data := await self._repository.get_by_email(user.email):
             if verify_password(user.password, user_data["password"]):
-
                 token_details = generate_user_token(user_data["id"])
                 return TokenDTO(token_type="Bearer", **token_details)
 
@@ -84,3 +83,7 @@ class UserService(IUserService):
         """
         record = await self._repository.get_by_email(email)
         return UserDTO.from_record(record) if record else None
+
+    async def get_all_users(self) -> list[UserDTO]:
+        """Get all users."""
+        return await self._repository.get_all()

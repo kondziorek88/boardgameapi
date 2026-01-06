@@ -55,3 +55,11 @@ class IUserRepository(ABC):
         Returns:
             Any | None: The user object if exists.
         """
+
+    @abstractmethod
+    async def get_all(self) -> Any | None:
+        """A method getting all users.
+
+        Returns:
+            Any | None: The list of users.
+        """

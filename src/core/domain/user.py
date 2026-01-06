@@ -2,7 +2,8 @@
 
 from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, ConfigDict, UUID1
+from pydantic import BaseModel, ConfigDict
+from uuid import UUID
 
 class UserLogin(BaseModel):
     """Model used only for authentication"""
@@ -22,5 +23,5 @@ class UserBroker(UserIn):
 
 class User(UserBroker):
     """The user model class"""
-    id: UUID1
+    id: UUID
     model_config = ConfigDict(from_attributes=True, extra="ignore")

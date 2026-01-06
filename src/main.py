@@ -11,6 +11,7 @@ from src.api.routers.session import router as session_router
 from src.api.routers.rankings import router as ranking_router
 from src.api.routers.comments import router as comment_router
 from src.api.routers.auth import router as auth_router
+from src.api.routers.user import router as user_router
 
 from src.container import Container
 from src.db import database, init_db
@@ -24,6 +25,7 @@ container.wire(modules=[
     "src.api.routers.rankings",
     "src.api.routers.comments",
     "src.api.routers.auth",
+    "src.api.routers.user",
     "src.api.dependencies",
 ])
 
@@ -44,6 +46,7 @@ app.include_router(session_router, prefix="/sessions", tags=["Sessions"])
 app.include_router(ranking_router, prefix="/rankings", tags=["Rankings"])
 app.include_router(comment_router, prefix="/comments", tags=["Comments"])
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+app.include_router(user_router, prefix="/users", tags=["Users"])
 @app.exception_handler(HTTPException)
 async def http_exception_handle_logging(
     request: Request,
