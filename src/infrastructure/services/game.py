@@ -33,8 +33,9 @@ class GameService(IGameService):
         )
         return await self._repository.add_game(game_data)
 
-    async def update_game(self, game_id: int, data: GameBroker) -> GameDTO | None:
-        return await self._repository.update_game(game_id, data)
+    async def update_game(self, game_id: int, game: GameIn) -> GameDTO | None:
+        """Update existing game."""
+        return await self._repository.update_game(game_id, game)
 
     async def delete_game(self, game_id: int) -> bool:
         return await self._repository.delete_game(game_id)

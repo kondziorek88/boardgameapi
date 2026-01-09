@@ -55,7 +55,7 @@ class IGameRepository(ABC):
         """
 
     @abstractmethod
-    async def update_game(self, game_id: int, data: GameIn) ->Any | None:
+    async def update_game(self, game_id: int, game_data: Any) -> Any | None:
         """The abstract updating game data in the data storage.
 
         Args:

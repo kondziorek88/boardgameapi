@@ -54,7 +54,7 @@ class IGameService(ABC):
         """
 
     @abstractmethod
-    async def update_game(self, game_id: int, data: GameBroker) -> GameDTO | None:
+    async def update_game(self, game_id: int, game: GameIn) -> GameDTO | None:
         """The method updating game details.
 
         Args:

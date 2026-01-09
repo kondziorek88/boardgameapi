@@ -10,6 +10,7 @@ from src.core.domain.game import GameIn
 from src.infrastructure.dto.gamedto import GameDTO
 from src.infrastructure.dto.userdto import UserDTO
 from src.infrastructure.services.igame import IGameService
+from src.infrastructure.services.iuser import IUserService
 
 router = APIRouter()
 
@@ -129,3 +130,25 @@ async def delete_game(
     success = await service.delete_game(game_id)
     if not success:
         raise HTTPException(status_code=404, detail="Game not found")
+
+
+@router.put("/update/{game_id}", response_model=GameDTO)
+@inject
+async def update_game(
+        game_id: int,
+        game: GameIn,
+        user_service: IUserService = Depends(Provide[Container.user_service]),  # Do sprawdzania uprawnień
+        game_service: IGameService = Depends(Provide[Container.game_service]),
+        current_user: UserDTO = Depends(get_current_user),
+):
+    """Update game details."""
+    # Opcjonalnie: Sprawdź czy user jest adminem
+    if not current_user.is_admin:
+        raise HTTPException(status_code=403, detail="Only admin can update games")
+
+    updated_game = await game_service.update_game(game_id, game)
+
+    if not updated_game:
+        raise HTTPException(status_code=404, detail="Game not found")
+
+    return updated_game

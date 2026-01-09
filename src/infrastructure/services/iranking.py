@@ -2,7 +2,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Iterable, Any
-from pydantic import UUID1
+from uuid import UUID
 
 from src.infrastructure.dto.rankingdto import RankingDTO
 
@@ -22,7 +22,7 @@ class IRankingService(ABC):
         """
 
     @abstractmethod
-    async def get_user_scores(self, user_id: UUID1) -> Iterable[RankingDTO]:
+    async def get_user_scores(self, user_id: UUID) -> Iterable[RankingDTO]:
         """The abstract getting ranking entries for a particular user.
 
         Args:
@@ -36,7 +36,7 @@ class IRankingService(ABC):
     async def update_stats_after_session(
         self,
         game_id: int,
-        scores: dict[UUID1, int],
+        scores: dict[UUID, int],
         date: Any
     ) -> None:
         """The abstract updating ranking stats for all players in a session.

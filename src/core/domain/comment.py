@@ -1,20 +1,22 @@
-"""A module containing DTO models for output comments."""
+"""Domain models for comments."""
 
 from datetime import datetime
-
-from pydantic import BaseModel, ConfigDict, UUID1
-
+from pydantic import BaseModel, ConfigDict
+from uuid import UUID
 
 class CommentIn(BaseModel):
-    """An input comment model"""
-    content: str
+    """Model for creating a comment."""
     session_id: int
+    content: str
 
+# Dodajemy CommentBroker, jeśli go brakuje
 class CommentBroker(CommentIn):
-    date: datetime
-    user_id: UUID1
+    """Broker model for comment."""
+    user_id: UUID
 
 class Comment(CommentBroker):
-    """The comment model class"""
+    """Model representing a comment."""
     id: int
+    created_at: datetime
+
     model_config = ConfigDict(from_attributes=True, extra="ignore")

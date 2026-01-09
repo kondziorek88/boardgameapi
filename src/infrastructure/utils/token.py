@@ -13,17 +13,10 @@ from src.infrastructure.utils.consts import (
 
 
 def generate_user_token(user_uuid: UUID1) -> dict:
-    """A function returning JWT token for user.
-
-    Args:
-        user_uuid (UUID5): The UUID of the user.
-
-    Returns:
-        dict: The token details.
-    """
+    """A function returning JWT token for user."""
     expire = datetime.now(timezone.utc) + timedelta(minutes=EXPIRATION_MINUTES)
     jwt_data = {"sub": str(user_uuid), "exp": expire, "type": "access"}
 
     encoded_jwt = jwt.encode(jwt_data, key=SECRET_KEY, algorithm=ALGORITHM)
 
-    return {"user_token": encoded_jwt, "expires": expire}
+    return {"access_token": encoded_jwt, "expires": expire}

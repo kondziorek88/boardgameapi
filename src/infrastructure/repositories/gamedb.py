@@ -75,7 +75,7 @@ class GameRepository(IGameRepository):
         new_game_id = await database.execute(query)
         return await self.get_by_id(new_game_id)
 
-    async def update_game(self, game_id: int, data: GameIn) -> Any | None:
+    async def update_game(self, game_id: int, game_data: Any) -> Any | None:
         """The method updating a game in the data storage.
 
         Args:
@@ -85,15 +85,13 @@ class GameRepository(IGameRepository):
         Returns:
             Any | None: The updated game.
         """
-        if await self.get_by_id(game_id):
-            query = (
-                game_table.update()
-                .where(game_table.c.id == game_id)
-                .values(**data.model_dump(exclude_unset=True))
-            )
-            await database.execute(query)
-            return await self.get_by_id(game_id)
-        return None
+        values = game_data.model_dump() if hasattr(game_data, 'model_dump') else game_data
+
+        query = game_table.update().where(game_table.c.id == game_id).values(**values)
+        await database.execute(query)
+
+        # Zwracamy zaktualizowany obiekt
+        return await self.get_by_id(game_id)
 
     async def delete_game(self, game_id: int) -> bool:
         """The method deleting a game from the data storage.

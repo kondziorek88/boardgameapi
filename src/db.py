@@ -126,9 +126,9 @@ comment_table = sqlalchemy.Table(
     metadata,
     sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
     sqlalchemy.Column(
-        "game_id",
+        "session_id",
         sqlalchemy.Integer,
-        sqlalchemy.ForeignKey("games.id", ondelete="CASCADE"),
+        sqlalchemy.ForeignKey("sessions.id", ondelete="CASCADE"),
         nullable=False,
     ),
     sqlalchemy.Column(
