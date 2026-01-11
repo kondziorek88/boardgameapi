@@ -2,13 +2,14 @@
 
 from typing import Iterable
 from dependency_injector.wiring import inject, Provide
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 
 from src.container import Container
 from src.core.domain.user import UserIn
 from src.infrastructure.dto.tokendto import TokenDTO
 from src.infrastructure.dto.userdto import UserDTO
 from src.infrastructure.services.iuser import IUserService
+from src.api.dependencies import get_current_user
 
 router = APIRouter()
 
@@ -63,10 +64,20 @@ async def authenticate_user(
         detail="Provided incorrect credentials",
     )
 
-@router.get("/", response_model=Iterable[UserDTO])
+
+@router.get("/all", response_model=Iterable[UserDTO], status_code=200)
 @inject
 async def get_all_users(
-    service: IUserService = Depends(Provide[Container.user_service]),
-):
-    """Get list of all users."""
-    return await service.get_all_users()
+        service: IUserService = Depends(Provide[Container.user_service]),
+        current_user: UserDTO = Depends(get_current_user),  # Wymagamy zalogowania
+) -> Iterable:
+    """Get all users (Admin only)."""
+
+    # ZABEZPIECZENIE: Tylko admin widzi listę użytkowników
+    if not current_user.is_admin:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Only administrator can view all users."
+        )
+
+    return await service.get_all()

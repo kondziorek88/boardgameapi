@@ -29,9 +29,6 @@ class SessionService(ISessionService):
         """Get all sessions for user."""
         return await self._repository.get_by_user(user_id)
 
-    async def get_by_game(self, game_id: int) -> Iterable[SessionDTO]:
-        """Get all sessions for a game."""
-        return await self._repository.get_by_game(game_id)
 
     async def add_session(self, data: SessionBroker) -> Session | None:
 
@@ -52,5 +49,5 @@ class SessionService(ISessionService):
         return await self._repository.update(session_id, data)
 
     async def delete_session(self, session_id: int) -> bool:
-        """Delete session."""
-        return await self._repository.delete(session_id)
+        """Delete a session."""
+        return await self._repository.delete_session(session_id)

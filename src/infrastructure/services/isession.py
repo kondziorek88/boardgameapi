@@ -22,10 +22,6 @@ class ISessionService(ABC):
         """Get all sessions for user."""
 
     @abstractmethod
-    async def get_by_game(self, game_id: int) -> Iterable[SessionDTO]:
-        """Get all sessions for a game."""
-
-    @abstractmethod
     async def add_session(self, data: SessionBroker) -> Session | None:
         """Add session."""
 
