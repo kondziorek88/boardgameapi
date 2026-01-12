@@ -141,8 +141,23 @@ async def update_game(
         game_service: IGameService = Depends(Provide[Container.game_service]),
         current_user: UserDTO = Depends(get_current_user),
 ):
-    """Update game details."""
-    # Opcjonalnie: Sprawdź czy user jest adminem
+    """Update an existing board game.
+
+        Only users with administrator privileges can update games.
+
+        Args:
+            game_id (int): The unique identifier of the game to update.
+            game (GameIn): The new game data.
+            service (IGameService): The game service dependency.
+            current_user (UserDTO): The currently authenticated user.
+
+        Returns:
+            GameDTO: The updated game DTO.
+
+        Raises:
+            HTTPException: If the user is not an administrator (403).
+            HTTPException: If the game is not found (404).
+        """
     if not current_user.is_admin:
         raise HTTPException(status_code=403, detail="Only admin can update games")
 

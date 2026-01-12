@@ -32,14 +32,13 @@ async def register_user(
 @router.post("/login", response_model=TokenDTO)
 @inject
 async def login(
-    # ZMIANA: Swagger wysyła dane w formularzu. Formularz ma pola 'username' i 'password'.
+
     form_data: OAuth2PasswordRequestForm = Depends(),
     service: IUserService = Depends(Provide[Container.user_service]),
 ):
     """Login user and return token."""
 
-    # Mapujemy dane z formularza na nasz obiekt domenowy
-    # Uwaga: form_data.username to w naszym przypadku email
+
     user_login = UserLogin(email=form_data.username, password=form_data.password)
 
     user = await service.authenticate_user(user_login)

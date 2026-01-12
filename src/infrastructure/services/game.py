@@ -15,18 +15,45 @@ class GameService(IGameService):
     _repository: IGameRepository
 
     def __init__(self, repository: IGameRepository) -> None:
+        """Initialize the GameService.
+
+            Args:
+                repository (IGameRepository): The game repository instance.
+        """
         self._repository = repository
 
     async def get_all(self) -> Iterable[GameDTO]:
+        """Retrieve all games.
+
+            Returns:
+                Iterable[GameDTO]: A list of game data transfer objects.
+            """
         return await self._repository.get_all()
 
     async def get_by_id(self, game_id: int) -> GameDTO | None:
+        """Retrieve a game by its ID.
+
+            Args:
+                game_id (int): The ID of the game.
+
+            Returns:
+                GameDTO | None: The game object if found, otherwise None.
+            """
         return await self._repository.get_by_id(game_id)
 
     async def get_by_admin(self, admin_id: UUID1) -> Iterable[GameDTO]:
         return await self._repository.get_by_admin(admin_id)
 
     async def create_game(self, data: GameIn, admin_id: UUID1) -> GameDTO:
+        """Create a new game.
+
+            Args:
+                game (GameIn): The game input data.
+                user_id (UUID): The ID of the user creating the game (Admin).
+
+            Returns:
+                GameDTO | None: The created game object.
+        """
         game_data = GameBroker(
             **data.model_dump(),
             admin_id=admin_id
@@ -34,10 +61,26 @@ class GameService(IGameService):
         return await self._repository.add_game(game_data)
 
     async def update_game(self, game_id: int, game: GameIn) -> GameDTO | None:
-        """Update existing game."""
+        """Update an existing game.
+
+        Args:
+            game_id (int): The ID of the game to update.
+            game (GameIn): The new game data.
+
+        Returns:
+            GameDTO | None: The updated game object if successful, otherwise None.
+        """
         return await self._repository.update_game(game_id, game)
 
     async def delete_game(self, game_id: int) -> bool:
+        """Delete a game.
+
+            Args:
+                game_id (int): The ID of the game to delete.
+
+            Returns:
+                bool: True if deletion was successful, False otherwise.
+         """
         return await self._repository.delete_game(game_id)
 
     async def get_random_game(self) -> GameDTO | None:

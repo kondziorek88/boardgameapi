@@ -89,8 +89,6 @@ class GameRepository(IGameRepository):
 
         query = game_table.update().where(game_table.c.id == game_id).values(**values)
         await database.execute(query)
-
-        # Zwracamy zaktualizowany obiekt
         return await self.get_by_id(game_id)
 
     async def delete_game(self, game_id: int) -> bool:
