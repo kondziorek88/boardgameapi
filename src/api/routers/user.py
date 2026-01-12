@@ -16,10 +16,7 @@ router = APIRouter()
 
 @router.post("/register", response_model=UserDTO, status_code=201)
 @inject
-async def register_user(
-    user: UserIn,
-    service: IUserService = Depends(Provide[Container.user_service]),
-) -> dict:
+async def register_user(user: UserIn,service: IUserService = Depends(Provide[Container.user_service])) -> dict:
     """A router coroutine for registering new user
 
     Args:
@@ -71,10 +68,7 @@ async def get_all_users(
         service: IUserService = Depends(Provide[Container.user_service]),
         current_user: UserDTO = Depends(get_current_user),
 ) -> Iterable:
-    """Retrieve a list of all registered users.
-
-    This endpoint is restricted to administrators only.
-
+    """Retrieve a list of all registered users..
     Args:
         service (IUserService): The user service dependency.
         current_user (UserDTO): The currently authenticated user.

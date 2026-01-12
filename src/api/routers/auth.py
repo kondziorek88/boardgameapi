@@ -2,7 +2,7 @@
 
 from dependency_injector.wiring import inject, Provide
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm # <--- TO JEST KLUCZOWE DLA SWAGGERA
+from fastapi.security import OAuth2PasswordRequestForm
 
 from src.container import Container
 from src.core.domain.user import UserIn, UserLogin
@@ -37,8 +37,6 @@ async def register_user(user: UserIn, service: IUserService = Depends(Provide[Co
 @inject
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), service: IUserService = Depends(Provide[Container.user_service])):
     """Authenticate a user and return an access token.
-
-    This endpoint is compatible with OAuth2 password flow (used by Swagger UI).
 
     Args:
         form_data (OAuth2PasswordRequestForm): The form data containing username (email) and password.
