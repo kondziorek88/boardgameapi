@@ -69,11 +69,22 @@ async def authenticate_user(
 @inject
 async def get_all_users(
         service: IUserService = Depends(Provide[Container.user_service]),
-        current_user: UserDTO = Depends(get_current_user),  # Wymagamy zalogowania
+        current_user: UserDTO = Depends(get_current_user),
 ) -> Iterable:
-    """Get all users (Admin only)."""
+    """Retrieve a list of all registered users.
 
-    # ZABEZPIECZENIE: Tylko admin widzi listę użytkowników
+    This endpoint is restricted to administrators only.
+
+    Args:
+        service (IUserService): The user service dependency.
+        current_user (UserDTO): The currently authenticated user.
+
+    Returns:
+        Iterable[UserDTO]: A list of all users.
+
+    Raises:
+        HTTPException: If the current user is not an administrator (403).
+    """
     if not current_user.is_admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

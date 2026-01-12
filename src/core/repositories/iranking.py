@@ -8,13 +8,13 @@ class IRankingRepository(ABC):
 
     @abstractmethod
     async def get_ranking_for_game(self, game_id: int) -> Iterable[Any]:
-        """The abstract getting ranking for a particular game.
+        """The abstract getting ranking for a game.
 
         Args:
             game_id (int): The id of the game.
 
         Returns:
-            Iterable[Any]: The ranking entries for the game, sorted by score or other criteria.
+            Iterable[Any]: The ranking entries.
         """
 
     @abstractmethod

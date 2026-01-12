@@ -13,28 +13,52 @@ class RankingRepository(IRankingRepository):
     """A class implementing the ranking repository."""
 
     async def get_ranking_for_game(self, game_id: int) -> Iterable[Any]:
-        """Get ranking for a specific game."""
+        """Retrieve ranking entries for a specific game.
+
+        Args:
+            game_id (int): The unique identifier of the game.
+
+        Returns:
+            Iterable[Any]: A list of ranking DTOs sorted by wins (descending).
+        """
         query = ranking_table.select().where(ranking_table.c.game_id == game_id).order_by(desc(ranking_table.c.wins))
         records = await database.fetch_all(query)
         return [RankingDTO.from_record(r) for r in records]
 
     async def get_user_scores(self, user_id: UUID4) -> Iterable[Any]:
-        """Get ranking stats for a specific user."""
+        """Retrieve ranking statistics for a specific user across all games.
+
+        Args:
+            user_id (UUID4): The unique UUID of the user.
+
+        Returns:
+            Iterable[Any]: A list of ranking DTOs for the user.
+        """
         query = ranking_table.select().where(ranking_table.c.user_id == user_id)
         records = await database.fetch_all(query)
         return [RankingDTO.from_record(r) for r in records]
 
-    # --- DODANO BRAKUJĄCĄ METODĘ ---
     async def get_global_ranking(self) -> Iterable[Any]:
-        """Get global ranking (all entries sorted by wins)."""
-        # Prosta implementacja zwracająca wszystkie rankingi posortowane po wygranych
+        """Retrieve the global ranking of all entries.
+
+        Returns:
+            Iterable[Any]: A list of all ranking DTOs sorted by wins (descending).
+        """
         query = ranking_table.select().order_by(desc(ranking_table.c.wins))
         records = await database.fetch_all(query)
         return [RankingDTO.from_record(r) for r in records]
-    # -------------------------------
+
 
     async def update_ranking(self, ranking_data: dict) -> Any | None:
-        """Update or create ranking entry."""
+        """Update or create a ranking entry based on new session results.
+
+        Args:
+            ranking_data (dict): A dictionary containing 'user_id', 'game_id',
+                'win' (bool), 'score' (int), and 'date'.
+
+        Returns:
+            Any | None: None.
+        """
         query = ranking_table.select().where(
             (ranking_table.c.user_id == ranking_data["user_id"]) &
             (ranking_table.c.game_id == ranking_data["game_id"])

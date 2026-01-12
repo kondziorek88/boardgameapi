@@ -31,17 +31,18 @@ class GameService(IGameService):
         return await self._repository.get_all()
 
     async def get_by_id(self, game_id: int) -> GameDTO | None:
-        """Retrieve a game by its ID.
+        """Retrieve a game by its id.
 
             Args:
-                game_id (int): The ID of the game.
+                game_id (int): The id of the game.
 
             Returns:
-                GameDTO | None: The game object if found, otherwise None.
+                GameDTO | None: The game object if found otherwise None.
             """
         return await self._repository.get_by_id(game_id)
 
     async def get_by_admin(self, admin_id: UUID1) -> Iterable[GameDTO]:
+        #nieużywana
         return await self._repository.get_by_admin(admin_id)
 
     async def create_game(self, data: GameIn, admin_id: UUID1) -> GameDTO:
@@ -54,18 +55,15 @@ class GameService(IGameService):
             Returns:
                 GameDTO | None: The created game object.
         """
-        game_data = GameBroker(
-            **data.model_dump(),
-            admin_id=admin_id
-        )
+        game_data = GameBroker(**data.model_dump(), admin_id=admin_id)
         return await self._repository.add_game(game_data)
 
     async def update_game(self, game_id: int, game: GameIn) -> GameDTO | None:
         """Update an existing game.
 
         Args:
-            game_id (int): The ID of the game to update.
-            game (GameIn): The new game data.
+            game_id (int): Id of the game to update.
+            game (GameIn): New game data.
 
         Returns:
             GameDTO | None: The updated game object if successful, otherwise None.
@@ -76,10 +74,10 @@ class GameService(IGameService):
         """Delete a game.
 
             Args:
-                game_id (int): The ID of the game to delete.
+                game_id (int): The id of the game to delete.
 
             Returns:
-                bool: True if deletion was successful, False otherwise.
+                bool: sukccess of the operation.
          """
         return await self._repository.delete_game(game_id)
 

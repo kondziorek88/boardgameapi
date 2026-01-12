@@ -25,11 +25,8 @@ async def add_session(
 ) -> dict:
     """Add a new game session result.
 
-    This endpoint processes the date to ensure it is timezone-naive UTC
-    before passing it to the service layer.
-
     Args:
-        session (SessionIn): The session data provided by the user.
+        session (SessionIn): The session data.
         current_user (UserDTO): The currently authenticated user adding the session.
         service (ISessionService): The session service dependency.
 
@@ -62,7 +59,7 @@ async def add_session(
 async def get_all_sessions(
         service: ISessionService = Depends(Provide[Container.session_service]),
 ) -> Iterable:
-    """Retrieve history of all played game sessions.
+    """History of all played sessions.
 
     Args:
         service (ISessionService): The session service dependency.
@@ -82,16 +79,16 @@ async def delete_session(
 ):
     """Delete a game session.
 
-    Only users with administrator privileges can delete sessions.
+    Only admins can delete sessions.
 
     Args:
-        session_id (int): The unique identifier of the session to delete.
+        session_id (int): Theid of the session to delete.
         service (ISessionService): The session service dependency.
         current_user (UserDTO): The currently authenticated user.
 
     Raises:
         HTTPException: If the user is not an administrator (403).
-        HTTPException: If the session is not found (404).
+        HTTPException: if not found (404).
     """
 
     if not current_user.is_admin:

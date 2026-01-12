@@ -46,19 +46,6 @@ class ISession(ABC):
         """
 
     @abstractmethod
-    async def update_session(self, session_id: int, data: SessionIn) -> Any | None:
-        """The abstract updating a session from the data storage.
-
-        Args:
-            session_id (int): The session id.
-            data (SessionIn): The atrtributes of the session.
-
-        Returns:
-            Any | None: The updated session.
-        """
-
-
-    @abstractmethod
     async def get_all_sessions(self) -> Iterable[SessionBroker]:
         """The abstract getting all sessions from the data storage.
 

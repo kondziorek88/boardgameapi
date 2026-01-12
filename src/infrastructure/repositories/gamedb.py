@@ -66,7 +66,7 @@ class GameRepository(IGameRepository):
         """The method adding a new game to the data storage.
 
         Args:
-            data (GameBroker): The game attributes.
+            data (GameBroker): The game attribute.
 
         Returns:
             Any | None: The newly created game.
@@ -80,7 +80,7 @@ class GameRepository(IGameRepository):
 
         Args:
             game_id (int): The game id.
-            data (GameIn): The game attributes.
+            game_data (GameIn): The game attributes.
 
         Returns:
             Any | None: The updated game.

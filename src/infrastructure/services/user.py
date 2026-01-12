@@ -14,15 +14,12 @@ from src.infrastructure.utils.token import generate_user_token
 
 class UserService(IUserService):
     """An abstract class for user service."""
-
     _repository: IUserRepository
-
     def __init__(self, repository: IUserRepository) -> None:
         self._repository = repository
 
     async def register_user(self, user: UserIn) -> UserDTO | None:
         """A method registering a new user.
-
         Args:
             user (UserIn): The user input data.
 
@@ -40,9 +37,7 @@ class UserService(IUserService):
             "is_admin": user.is_admin,
             "registration_date": datetime.now()
         }
-
         return await self._repository.register_user(user_data)
-
     async def authenticate_user(self, user: UserLogin) -> TokenDTO | None:
         """The method authenticating the user.
 
@@ -57,7 +52,6 @@ class UserService(IUserService):
             if verify_password(user.password, user_data["password"]):
                 token_details = generate_user_token(user_data["id"])
                 return TokenDTO(token_type="Bearer", **token_details)
-
         return None
 
     async def get_by_uuid(self, uuid: UUID4) -> UserDTO | None:
@@ -71,7 +65,6 @@ class UserService(IUserService):
         """
 
         return await self._repository.get_by_uuid(uuid)
-
     async def get_by_email(self, email: str) -> UserDTO | None:
         """A method getting user by email.
 
@@ -85,5 +78,9 @@ class UserService(IUserService):
         return UserDTO.from_record(record) if record else None
 
     async def get_all_users(self) -> list[UserDTO]:
-        """Get all users."""
+        """The method getting all users.
+
+        Returns:
+            Iterable[UserDTO]: Collection of all users.
+        """
         return await self._repository.get_all()

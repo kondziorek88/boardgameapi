@@ -6,7 +6,18 @@ from pydantic import UUID1
 
 
 class Ranking(BaseModel):
-    """Ranking data for a specific user in a specific game."""
+    """Model representing a single entry in a ranking table.
+
+    Attributes:
+        user_id (UUID): The player's u.
+        game_id (int): The games id.
+        games_played (int): Total number of games played.
+        wins (int): Total number of wins.
+        best_score (int): The highest score achieved.
+        average_score (float): The average score across all games.
+        first_game_date (datetime): The first game's date.
+        last_game_date (datetime): The last game's date.
+    """
     user_id: UUID1
     game_id: int
     games_played: int

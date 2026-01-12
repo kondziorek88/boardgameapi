@@ -26,27 +26,21 @@ async def create_game(
 
     Args:
         game (GameIn): The game data.
-        current_user (UserDTO): The currently logged-in user (admin).
+        current_user (UserDTO): The currently logged-in user (tylko admin).
         service (IGameService, optional): The injected service dependency.
 
     Returns:
         dict: The new game attributes.
     """
     if not current_user.is_admin:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Only admins can create games"
-        )
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only admins can create games")
     new_game = await service.create_game(game, current_user.id)
-
     return new_game.model_dump() if new_game else {}
 
 
 @router.get("/all", response_model=Iterable[GameDTO], status_code=200)
 @inject
-async def get_all_games(
-    service: IGameService = Depends(Provide[Container.game_service]),
-) -> Iterable:
+async def get_all_games(service: IGameService = Depends(Provide[Container.game_service])) -> Iterable:
     """An endpoint for getting all games.
 
     Args:
@@ -72,7 +66,7 @@ async def get_random_game(
         HTTPException: 404 if no games exist.
 
     Returns:
-        dict: The random game details.
+        dict: The random game .
     """
     if game := await service.get_random_game():
         return game.model_dump()
@@ -89,14 +83,14 @@ async def get_game_by_id(
     """An endpoint for getting game details by id.
 
     Args:
-        game_id (int): The id of the game.
+        game_id (int): the id of the game.
         service (IGameService, optional): The injected service dependency.
 
     Raises:
-        HTTPException: 404 if game does not exist.
+        HTTPException: 404.
 
     Returns:
-        dict: The requested game attributes.
+        dict: game attributes.
     """
     if game := await service.get_by_id(game_id):
         return game.model_dump()

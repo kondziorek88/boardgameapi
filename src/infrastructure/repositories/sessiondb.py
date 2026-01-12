@@ -14,10 +14,7 @@ class SessionRepository(ISession):
     """A class implementing the session repository."""
 
     async def add_session(self, data: SessionBroker) -> Any | None:
-        """Add a new session and its associated scores to the database.
-
-             This method executes within a transaction to ensure integrity between
-            the session record and the score records.
+        """Add a new session to the database.
 
             Args:
                 data (SessionBroker): The session data including scores.
@@ -99,10 +96,10 @@ class SessionRepository(ISession):
         """Delete a session record.
 
             Args:
-                session_id (int): The ID of the session to delete.
+                session_id (int): The ID of the session.
 
             Returns:
-                bool: True if the session was found and deleted, False otherwise.
+                bool: Success of the operation.
         """
         check_query = session_table.select().where(session_table.c.id == session_id)
         if not await database.fetch_one(check_query):
@@ -119,7 +116,7 @@ class SessionRepository(ISession):
             user_id (UUID4): The UUID of the user.
 
         Returns:
-            Iterable[Any]: A list of sessions created by the user.
+            Iterable[Any]: A list of sessions.
         """
         query = session_table.select().where(session_table.c.created_by == user_id).order_by(desc(session_table.c.date))
         sessions = await database.fetch_all(query)
@@ -131,14 +128,3 @@ class SessionRepository(ISession):
                 result.append(full_session)
         return result
 
-    async def update_session(self, session_id: int, data: Any) -> Any | None:
-        """Update session details (Placeholder).
-
-            Args:
-                session_id (int): The ID of the session.
-                data (Any): The new data.
-
-            Returns:
-                Any | None: None (Not implemented yet).
-        """
-        return None

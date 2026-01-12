@@ -15,39 +15,43 @@ router = APIRouter()
 
 @router.post("/register", response_model=UserDTO, status_code=201)
 @inject
-async def register_user(
-    user: UserIn,
-    service: IUserService = Depends(Provide[Container.user_service]),
-):
-    """Register a new user."""
-    if await service.get_by_email(user.email):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="User already exists",
-        )
+async def register_user(user: UserIn, service: IUserService = Depends(Provide[Container.user_service])):
+    """Register a new user in the system.
 
+    Args:
+        user (UserIn): The registration data provided by the user.
+        service (IUserService): The user service dependency.
+
+    Returns:
+        UserDTO: The created user data transfer object.
+
+    Raises:
+        HTTPException: If a user with the given email already exists (400).
+    """
+    if await service.get_by_email(user.email):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists")
     return await service.register_user(user)
 
 
 @router.post("/login", response_model=TokenDTO)
 @inject
-async def login(
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), service: IUserService = Depends(Provide[Container.user_service])):
+    """Authenticate a user and return an access token.
 
-    form_data: OAuth2PasswordRequestForm = Depends(),
-    service: IUserService = Depends(Provide[Container.user_service]),
-):
-    """Login user and return token."""
+    This endpoint is compatible with OAuth2 password flow (used by Swagger UI).
 
+    Args:
+        form_data (OAuth2PasswordRequestForm): The form data containing username (email) and password.
+        service (IUserService): The user service dependency.
 
+    Returns:
+        TokenDTO: An object containing the access token and its expiration.
+
+    Raises:
+        HTTPException: If authentication fails due to incorrect credentials (401).
+    """
     user_login = UserLogin(email=form_data.username, password=form_data.password)
-
     user = await service.authenticate_user(user_login)
-
     if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password", headers={"WWW-Authenticate": "Bearer"})
     return user

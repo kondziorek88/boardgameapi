@@ -39,7 +39,7 @@ class ICommentService(ABC):
 
         Args:
             comment_id (int): The comment id.
-            user_id (UUID1): The user id (owner).
+            user_id (UUID1): The user id.
 
         Returns:
             bool: True if deleted, False otherwise.

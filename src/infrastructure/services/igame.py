@@ -16,7 +16,7 @@ class IGameService(ABC):
         """The method getting all games.
 
         Returns:
-            Iterable[GameDTO]: All available games.
+            Iterable[GameDTO]: All games.
         """
 
     @abstractmethod
@@ -46,8 +46,8 @@ class IGameService(ABC):
         """The method creating a new game.
 
         Args:
-            data (GameIn): The game input data.
-            admin_id (UUID1): The UUID of the admin.
+            data (GameIn): The game data.
+            admin_id (UUID1): The UUID of admin.
 
         Returns:
             GameDTO: The created game details.

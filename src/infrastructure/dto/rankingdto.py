@@ -6,7 +6,15 @@ from pydantic import BaseModel, ConfigDict
 
 
 class RankingDTO(BaseModel):
-    """A DTO representing ranking entry for a game."""
+    """DTO for transferring ranking statistics.
+
+        Attributes:
+            user_id (UUID): The UUID of the player.
+            games_played (int): Total games played by the user.
+            wins (int): Total wins.
+            average_score (float): Average score.
+            best_score (int): Best score in the game.
+        """
     user_id: UUID
     games_played: int
     wins: int
@@ -21,6 +29,14 @@ class RankingDTO(BaseModel):
 
     @classmethod
     def from_record(cls, record: Record) -> "RankingDTO":
+        """Create a RankingDTO instance from a database record.
+
+            Args:
+                record: A database record.
+
+            Returns:
+                RankingDTO: The DTO populated with data from the record.
+        """
         r = dict(record)
         return cls(
             user_id=r.get("user_id"),

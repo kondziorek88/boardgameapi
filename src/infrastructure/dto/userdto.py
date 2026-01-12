@@ -6,7 +6,15 @@ from pydantic import  BaseModel, ConfigDict
 
 
 class UserDTO(BaseModel):
-    """A DTO model for user."""
+    """DTO for transferring user data.
+
+    Attributes:
+        id (UUID): The unique UUID of the user.
+        email (EmailStr): The user's email address.
+        nick (str): The user's nickname.
+        is_admin (bool): Flag indicating administrative privileges.
+        registration_date (datetime): Date of registration.
+    """
 
     id: UUID
     email: str
@@ -21,7 +29,14 @@ class UserDTO(BaseModel):
 
     @classmethod
     def from_record(cls, record) -> "UserDTO":
-        """A method for creating DTO from a database record."""
+        """Create a UserDTO instance from a database record.
+
+        Args:
+            record: A database record (dict-like object).
+
+        Returns:
+            UserDTO: The DTO populated with data from the record.
+        """
         return cls(
             id=record["id"],
             email=record["email"],

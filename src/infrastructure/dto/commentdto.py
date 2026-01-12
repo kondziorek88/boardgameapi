@@ -6,7 +6,13 @@ from pydantic import BaseModel, ConfigDict
 
 
 class CommentDTO(BaseModel):
-    """A model representing DTO for board game data."""
+    """DTO for transferring comment data.
+
+    Attributes:
+        id (int): The id of the comment.
+        session_id (int): The id of the session the comment belongs to.
+        content (str): The content of the comment.
+    """
     id: int
     content: str
     session_id: int

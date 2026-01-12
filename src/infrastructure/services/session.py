@@ -56,17 +56,6 @@ class SessionService(ISessionService):
                 date=data.date_added
             )
         return new_session
-    async def update_session(self, session_id: int, data: SessionBroker) -> Session | None:
-        """Update an existing session.
-
-        Args:
-            session_id (int): The ID of the session to update.
-            session_data (SessionIn): The new session data.
-
-        Returns:
-            SessionDTO | None: The updated session object if successful, otherwise None.
-        """
-        return await self._repository.update(session_id, data)
 
     async def delete_session(self, session_id: int) -> bool:
         """Delete a session by its ID.
@@ -75,6 +64,6 @@ class SessionService(ISessionService):
             session_id (int): The ID of the session to delete.
 
         Returns:
-            bool: True if deleted successfully, False if not found.
+            bool: Succes of the operation.
         """
         return await self._repository.delete_session(session_id)

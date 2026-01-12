@@ -5,17 +5,31 @@ from pydantic import BaseModel, ConfigDict
 from uuid import UUID
 
 class CommentIn(BaseModel):
-    """Model for creating a comment."""
+    """Model for creating a new comment.
+
+    Attributes:
+        session_id (int): The id of the session.
+        content (str): The content of the comment.
+    """
     session_id: int
     content: str
 
-# Dodajemy CommentBroker, jeśli go brakuje
+
 class CommentBroker(CommentIn):
-    """Broker model for comment."""
+    """Broker model for transferring comment data.
+
+    Attributes:
+        user_id (UUID): The UUID of the author.
+    """
     user_id: UUID
 
 class Comment(CommentBroker):
-    """Model representing a comment."""
+    """Model representing a stored comment.
+
+        Attributes:
+            id (int): The unique identifier of the comment.
+            created_at (datetime): The timestamp when the comment was created.
+    """
     id: int
     created_at: datetime
 

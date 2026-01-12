@@ -11,28 +11,53 @@ class ISessionService(ABC):
 
     @abstractmethod
     async def get_all(self) -> Iterable[SessionDTO]:
-        """Get all sessions."""
+        """The abstract getting all sessions.
+
+        Returns:
+            Iterable[SessionDTO]: Collection of sessions.
+        """
 
     @abstractmethod
     async def get_by_id(self, session_id: int) -> SessionDTO | None:
-        """Get session by id."""
+        """Get session by id.
+
+        Args:
+            session_id (int): Session id.
+
+        Returns:
+            SessionDTO: Session object.
+            """
 
     @abstractmethod
     async def get_by_user(self, user_id: int) -> Iterable[SessionDTO]:
-        """Get all sessions for user."""
+        """Get session by user.
+
+        Args:
+            user_id (int): Session id.
+
+        Returns:
+            SessionDTO: Session object.
+            """
 
     @abstractmethod
     async def add_session(self, data: SessionBroker) -> Session | None:
-        """Add session."""
+        """The abstract adding a new session.
 
-    @abstractmethod
-    async def update_session(
-        self,
-        session_id: int,
-        data: SessionBroker,
-    ) -> Session | None:
-        """Update session."""
+            Args:
+                session_broker (SessionBroker): The session data.
+
+            Returns:
+                SessionDTO | None: The created session data.
+        """
+
 
     @abstractmethod
     async def delete_session(self, session_id: int) -> bool:
-        """Delete session."""
+        """The abstract deleting a session.
+
+        Args:
+            session_id (int): The session id.
+
+        Returns:
+            bool: Success of the operation.
+        """

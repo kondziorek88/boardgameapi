@@ -8,7 +8,16 @@ from uuid import UUID
 
 
 class GameDTO(BaseModel):
-    """A model representing DTO for board game data."""
+    """DTO for transferring board game data.
+
+    Attributes:
+        id (int): The id of the game.
+        title (str): The name of the game.
+        description (str): A decsription of the game.
+        min_players (int): Minimum number of players.
+        max_players (int): Maximum number of players.
+        rules_url Optional[str]: URL to the game rules or a short explanation.
+    """
     id: int
     title: str
     description: Optional[str]

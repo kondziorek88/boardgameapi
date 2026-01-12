@@ -8,7 +8,6 @@ class BaseConfig(BaseSettings):
     """A class containing base settings configuration."""
     model_config = SettingsConfigDict(extra="ignore")
 
-
 class AppConfig(BaseConfig):
     """A class containing app's configuration."""
     DB_HOST: Optional[str] = "localhost"
